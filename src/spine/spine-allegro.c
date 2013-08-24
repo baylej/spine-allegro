@@ -94,7 +94,8 @@ void spalleg_draw(SkeletonDrawable* sd, ALLEGRO_BITMAP* bm)
 		vertices[3][1] = vertexPositions[VERTEX_Y4];
 
 		
-		
+	
+
 
 
 }
