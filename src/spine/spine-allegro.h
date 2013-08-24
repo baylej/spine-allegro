@@ -22,4 +22,8 @@ typedef struct SkeletonDrawable SkeletonDrawable;
 SkeletonDrawable* spalleg_load_skeleton (SkeletonData* skeleton, AnimationStateData* stateData);
 void spalleg_dispose_skeleton( SkeletonDrawable* skeleton);
 
+void spalleg_update(SkeletonDrawable* sd, float delta);
+
+void spalleg_draw(SkeletonDrawable* sd, ALLEGRO_BITMAP* bm);
+
 #endif /* _SPINE_ALLEG_H */
