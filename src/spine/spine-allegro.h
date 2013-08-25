@@ -2,6 +2,9 @@
  * Spine Runtime for Allegro5 - Bayle Jonathan
  * Image I/O addon must be loaded : include <allegro5/allegro_image.h>
  * al_init_image_addon must return TRUE before you use this code
+ *
+ * Primitives addon must be loaded : include <allegro5/allegro_primitives.h>
+ * al_init_primitives_addon must return TRUE before you use this code
  */
 
 #pragma once
@@ -11,19 +14,24 @@
 
 #include <spine/spine.h>
 
-struct SkeletonDrawable
-{
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct {
 	Skeleton* skeleton;
 	AnimationState* state;
 	float timeScale;
-	
-};
-typedef struct SkeletonDrawable SkeletonDrawable;
-SkeletonDrawable* spalleg_load_skeleton (SkeletonData* skeleton, AnimationStateData* stateData);
-void spalleg_dispose_skeleton( SkeletonDrawable* skeleton);
+} SkeletonDrawable;
 
-void spalleg_update(SkeletonDrawable* sd, float delta);
+SkeletonDrawable* loadSkeleton(SkeletonData* skeleton, AnimationStateData* stateData);
+void disposeSkeleton(SkeletonDrawable* skeleton);
 
-void spalleg_draw(SkeletonDrawable* sd, ALLEGRO_BITMAP* bm);
+void skeletonUpdate(SkeletonDrawable* sd, float delta);
+void skeletonDraw  (SkeletonDrawable* sd);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* _SPINE_ALLEG_H */
