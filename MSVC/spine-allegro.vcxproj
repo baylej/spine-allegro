@@ -18,6 +18,9 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\spine\spine-allegro.c" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGUID>{B6DF0A6F-4CF9-4682-B845-7C17D3C8F159}</ProjectGUID>
     <SccProjectName />
@@ -191,9 +194,6 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\spine-allegro\src\spine\spine-allegro.c" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
