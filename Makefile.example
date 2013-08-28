@@ -1,0 +1,25 @@
+CC= gcc
+CFLAGS= -W -Wall -O2 -c -Ispine-runtimes/spine-c/include -Isrc
+LFLAGS= -lallegro -lallegro_primitives -lallegro_image
+TARGET= example/example
+
+SOURCES= $(wildcard example/*.c)
+OBJECTS= $(SOURCES:.c=.o)
+DEP= spine-allegro.a
+
+all: $(TARGET)
+
+$(TARGET): $(OBJECTS) $(DEP)
+	$(CC) -o $@ $(LFLAGS) $^
+
+%.o: %.c
+	$(CC) -o $@ $(CFLAGS) $^
+
+.PHONY: clean mrproper
+
+clean:
+	rm $(OBJECTS)
+
+mrproper: clean
+	rm $(TARGET)
+
