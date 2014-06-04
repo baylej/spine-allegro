@@ -8,24 +8,25 @@
 #include <spine/spine-allegro.h>
 
 SkeletonDrawable *drawable = NULL;
-SkeletonData *skeletonData;
-Atlas *atlas = NULL;
+spSkeletonData *skeletonData;
+spAtlas *atlas = NULL;
 
 void init_spineboy(void) {
-	Skeleton *skeleton = NULL;
-	SkeletonJson *json;
-	AnimationStateData *stateData;
+	spSkeleton *skeleton = NULL;
+	spSkeletonJson *json;
+	spAnimationStateData *stateData;
 
 	// Load atlas, skeleton, and animations.
-	atlas = Atlas_readAtlasFile("../spine-runtimes/spine-c/data/spineboy.atlas");
-	json = SkeletonJson_create(atlas);
-	skeletonData = SkeletonJson_readSkeletonDataFile(json, "../spine-runtimes/spine-c/data/spineboy.json");
-	SkeletonJson_dispose(json);
+	atlas = spAtlas_createFromFile("../spine-runtimes/spine-c/data/spineboy.atlas", NULL);
+	json = spSkeletonJson_create(atlas);
+	json->scale = 0.3;
+	skeletonData = spSkeletonJson_readSkeletonDataFile(json, "../spine-runtimes/spine-c/data/spineboy.json");
+	spSkeletonJson_dispose(json);
 
 	// Configure mixing.
-	stateData = AnimationStateData_create(skeletonData);
-	AnimationStateData_setMixByName(stateData, "walk", "jump", 0.2f);
-	AnimationStateData_setMixByName(stateData, "jump", "walk", 0.4f);
+	stateData = spAnimationStateData_create(skeletonData);
+	spAnimationStateData_setMixByName(stateData, "walk", "jump", 0.2f);
+	spAnimationStateData_setMixByName(stateData, "jump", "walk", 0.4f);
 
 	drawable = loadSkeleton(skeletonData, stateData);
 	drawable->timeScale = 1;
@@ -33,19 +34,22 @@ void init_spineboy(void) {
 	skeleton = drawable->skeleton;
 	skeleton->flipX = false;
 	skeleton->flipY = false;
-	Skeleton_setToSetupPose(skeleton);
+	spSkeleton_setToSetupPose(skeleton);
 
-	skeleton->root->x = 320;
-	skeleton->root->y = 420;
-	Skeleton_updateWorldTransform(skeleton);
+	skeleton->x = 320;
+	skeleton->y = 420;
+	spSkeleton_updateWorldTransform(skeleton);
 
-	AnimationState_setAnimationByName(drawable->state, "walk", true);
-	AnimationState_addAnimationByName(drawable->state, "jump", false, 0);
-	AnimationState_addAnimationByName(drawable->state, "walk", true, 0);
-	AnimationState_addAnimationByName(drawable->state, "jump", false, 3);
-	AnimationState_addAnimationByName(drawable->state, "walk", true, 0);
-	AnimationState_addAnimationByName(drawable->state, 0, true, 0);
-	AnimationState_addAnimationByName(drawable->state, "walk", true, 1);
+	spAnimationState_setAnimationByName(drawable->state, 0, "walk",  true);
+	spAnimationState_addAnimationByName(drawable->state, 0, "jump", false, 0);
+	spAnimationState_addAnimationByName(drawable->state, 0,  "run",  true, 0);
+	spAnimationState_addAnimationByName(drawable->state, 0, "jump", false, 3);
+	spAnimationState_addAnimationByName(drawable->state, 0, "walk",  true, 0);
+	spAnimationState_addAnimationByName(drawable->state, 0, "idle", false, 2);
+	spAnimationState_addAnimationByName(drawable->state, 0, "walk",  true, 0);
+	spAnimationState_addAnimationByName(drawable->state, 0,"shoot", false, 2);
+	spAnimationState_addAnimationByName(drawable->state, 0, "walk",  true, 0);
+	spAnimationState_addAnimationByName(drawable->state, 0,"death", false, 6);
 }
 
 #define fatal_error(str) { fputs(str, stderr); goto errquit; }
@@ -95,8 +99,8 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-	SkeletonData_dispose(skeletonData);
-	Atlas_dispose(atlas);
+	spSkeletonData_dispose(skeletonData);
+	spAtlas_dispose(atlas);
 	disposeSkeleton(drawable);
 	al_destroy_timer(timer);
 	al_destroy_event_queue(equeue);

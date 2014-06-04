@@ -19,12 +19,12 @@ extern "C" {
 #endif
 
 typedef struct {
-	Skeleton* skeleton;
-	AnimationState* state;
+	spSkeleton* skeleton;
+	spAnimationState* state;
 	float timeScale;
 } SkeletonDrawable;
 
-SkeletonDrawable* loadSkeleton(SkeletonData* skeleton, AnimationStateData* stateData);
+SkeletonDrawable* loadSkeleton(spSkeletonData* skeleton, spAnimationStateData* stateData);
 void disposeSkeleton(SkeletonDrawable* skeleton);
 
 void skeletonUpdate(SkeletonDrawable* sd, float delta);
