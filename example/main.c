@@ -60,6 +60,9 @@ int main(int argc, char *argv[]) {
  
 	if (!al_init())	fatal_error("failed to initialize allegro!");
 
+	al_set_new_display_flags(ALLEGRO_OPENGL);
+	al_set_new_display_option(ALLEGRO_SAMPLE_BUFFERS, 1, ALLEGRO_REQUIRE);
+	al_set_new_display_option(ALLEGRO_SAMPLES, 4, ALLEGRO_REQUIRE);
 	display = al_create_display(640, 480);
 	if (!display) fatal_error("failed to create display!");
 
@@ -75,6 +78,7 @@ int main(int argc, char *argv[]) {
 	al_register_event_source(equeue, al_get_display_event_source(display));
 	al_register_event_source(equeue, al_get_timer_event_source(timer));
 
+	al_set_new_bitmap_flags(ALLEGRO_MIN_LINEAR | ALLEGRO_MAG_LINEAR);
 	init_spineboy();
  
 	al_start_timer(timer);
